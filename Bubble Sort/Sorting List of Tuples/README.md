@@ -1,4 +1,4 @@
-This function was created particularly for a Decesuin Tree Algorithm. The input of the fuction contains a list of tuples containing Possible Node Questions and their corresponding Information Gain. Using this function we sort the list in dscending order.
+This function was created particularly for a Decesuin Tree Algorithm. The input of the fuction contains a list of tuples containing Possible Node Questions and their corresponding Information Gain. Using this function we sort the list in a dscending order.
 
 # Input of the Function:
 [
