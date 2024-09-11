@@ -544,7 +544,8 @@ class DeepOCSort(object):
             i -= 1
             # remove dead tracklet
             if trk.time_since_update > self.max_age:
-                self.trackers.pop(i)
+                #self.trackers.pop(i)
+                pass
                  
         #========================================  
         if len(ret) > 0:
