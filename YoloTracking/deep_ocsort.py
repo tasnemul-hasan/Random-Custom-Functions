@@ -551,7 +551,7 @@ class DeepOCSort(object):
             return np.concatenate(ret)
         else:
             ret = []
-            for trk in reversed(self.trackers):
+            for trk in (self.trackers):
                 d = trk.get_state()[0]
                 if (trk.hit_streak >= 1):
                     ret.append(np.concatenate((d, [trk.id + 1], [trk.conf], [trk.cls])).reshape(1, -1))
