@@ -397,7 +397,7 @@ class DeepOCSort(object):
               dets[:, 4] = last_predict[:,5]
               dets[:, 5] = last_predict[:,6]
           else:
-              return np.empty((0, 6))
+              dets = np.empty((0, 6))
               # Return empty array if no trackers meet the conditions
               
         #==========================================
