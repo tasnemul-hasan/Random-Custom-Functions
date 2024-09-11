@@ -544,8 +544,7 @@ class DeepOCSort(object):
             i -= 1
             # remove dead tracklet
             if trk.time_since_update > self.max_age:
-                #self.trackers.pop(i)
-                pass
+                self.trackers.pop(i)
                  
         #========================================  
         if len(ret) > 0:
@@ -554,7 +553,7 @@ class DeepOCSort(object):
             ret = []
             for trk in reversed(self.trackers):
                 d = trk.get_state()[0]
-                if (trk.hit_streak >= self.min_hits):
+                if (trk.hit_streak >= 1):
                     ret.append(np.concatenate((d, [trk.id + 1], [trk.conf], [trk.cls])).reshape(1, -1))
                     break
                 
