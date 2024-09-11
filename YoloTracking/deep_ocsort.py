@@ -554,7 +554,9 @@ class DeepOCSort(object):
             for trk in (self.trackers):
                 d = trk.get_state()[0]
                 ret.append(np.concatenate((d, [trk.id + 1], [trk.conf], [trk.cls])).reshape(1, -1))
-                return np.concatenate(ret)
+                break
+                
+            return np.concatenate(ret)
         #========================================   
         
 
