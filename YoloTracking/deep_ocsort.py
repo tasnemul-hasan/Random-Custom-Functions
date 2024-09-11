@@ -322,7 +322,7 @@ class DeepOCSort(object):
         fp16,
         per_class=True,
         det_thresh=0.1,
-        max_age=300,
+        max_age=100,
         min_hits=2,
         iou_threshold=0.3,
         delta_t=3,
@@ -553,9 +553,8 @@ class DeepOCSort(object):
             ret = []
             for trk in (self.trackers):
                 d = trk.get_state()[0]
-                if (trk.hit_streak >= 1):
-                    ret.append(np.concatenate((d, [trk.id + 1], [trk.conf], [trk.cls])).reshape(1, -1))
-                    break
+                ret.append(np.concatenate((d, [trk.id + 1], [trk.conf], [trk.cls])).reshape(1, -1))
+                break
                 
             return np.concatenate(ret)
         #========================================   
