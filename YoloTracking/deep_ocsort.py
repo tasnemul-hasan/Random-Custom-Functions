@@ -323,7 +323,7 @@ class DeepOCSort(object):
         per_class=True,
         det_thresh=0.1,
         max_age=50,
-        min_hits=2,
+        min_hits=3,
         iou_threshold=0.3,
         delta_t=3,
         asso_func="iou",
@@ -384,19 +384,20 @@ class DeepOCSort(object):
         if dets.shape[0] == 0:
           # If no detections are available, predict the state of each tracker.
           ret = []
-          for trk in reversed(self.trackers):
+          for trk in (self.trackers):
               pos = trk.get_state()[0]               # Predict the current state from Kalman Filter 
               # Check if tracker should be considered (e.g., based on hit streak)
-              if (trk.hit_streak >= self.min_hits):                              
-                  ret.append(np.concatenate((pos, [trk.id + 1], [trk.conf], [trk.cls])).reshape(1, -1))
-              
+              #if (trk.hit_streak >= self.min_hits):                              
+              ret.append(np.concatenate((pos, [trk.id + 1], [trk.conf], [trk.cls])).reshape(1, -1))
+              break
           # Return all predicted states
-          if len(ret) > 0:
+          #if len(ret) > 0:
+          try:
               last_predict = np.concatenate(ret)
               dets[:,0:4] = last_predict[:,0:4]
               dets[:, 4] = last_predict[:,5]
               dets[:, 5] = last_predict[:,6]
-          else:
+          except
               dets = np.empty((0, 6))
               # Return empty array if no trackers meet the conditions
               
