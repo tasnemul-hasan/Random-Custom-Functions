@@ -321,9 +321,9 @@ class DeepOCSort(object):
         device,
         fp16,
         per_class=True,
-        det_thresh=0.3,
+        det_thresh=0.1,
         max_age=100,
-        min_hits=3,
+        min_hits=2,
         iou_threshold=0.3,
         delta_t=3,
         asso_func="iou",
@@ -387,7 +387,7 @@ class DeepOCSort(object):
           for trk in reversed(self.trackers):
               pos = trk.get_state()[0]               # Predict the current state from Kalman Filter 
               # Check if tracker should be considered (e.g., based on hit streak)
-              if (trk.time_since_update < 5) and (trk.hit_streak >= self.min_hits or self.frame_count <= self.min_hits):                              
+              if (trk.hit_streak >= self.min_hits):                              
                   ret.append(np.concatenate((pos, [trk.id + 1], [trk.conf], [trk.cls])).reshape(1, -1))
               
           # Return all predicted states
