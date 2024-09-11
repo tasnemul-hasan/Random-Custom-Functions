@@ -322,7 +322,7 @@ class DeepOCSort(object):
         fp16,
         per_class=True,
         det_thresh=0.1,
-        max_age=200,
+        max_age=50,
         min_hits=2,
         iou_threshold=0.3,
         delta_t=3,
@@ -555,8 +555,11 @@ class DeepOCSort(object):
                 d = trk.get_state()[0]
                 ret.append(np.concatenate((d, [trk.id + 1], [trk.conf], [trk.cls])).reshape(1, -1))
                 break
-                
-            return np.concatenate(ret)
+
+            try:
+                return np.concatenate(ret)
+            except:
+                return np.empty((0,7))
         #========================================   
         
 
