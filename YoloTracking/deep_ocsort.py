@@ -387,7 +387,7 @@ class DeepOCSort(object):
           for trk in reversed(self.trackers):
               pos = trk.get_state()[0]               # Predict the current state from Kalman Filter 
               # Check if tracker should be considered (e.g., based on hit streak)
-              if (trk.time_since_update < 1) and (trk.hit_streak >= self.min_hits or self.frame_count <= self.min_hits):                              
+              if (trk.time_since_update < 5) and (trk.hit_streak >= self.min_hits or self.frame_count <= self.min_hits):                              
                   ret.append(np.concatenate((pos, [trk.id + 1], [trk.conf], [trk.cls])).reshape(1, -1))
               
           # Return all predicted states
@@ -551,7 +551,7 @@ class DeepOCSort(object):
             return np.concatenate(ret)
         else:
             ret = []
-            for trk in reversed(self.trackers):
+            for trk in (self.trackers):
                 d = trk.get_state()[0]
                 ret.append(np.concatenate((d, [trk.id + 1], [trk.conf], [trk.cls])).reshape(1, -1))
                 break
