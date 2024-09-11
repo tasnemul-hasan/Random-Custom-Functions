@@ -322,7 +322,7 @@ class DeepOCSort(object):
         fp16,
         per_class=True,
         det_thresh=0.1,
-        max_age=100,
+        max_age=80,
         min_hits=3,
         iou_threshold=0.3,
         delta_t=3,
