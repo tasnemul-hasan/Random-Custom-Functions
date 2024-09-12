@@ -58,6 +58,28 @@ class StrongSORT(object):
         self.tracker.camera_update(previous_img=self.previous_img, current_img=img)
         self.previous_img = img
 
+        #=============================================
+        if dets.shape[0] == 0:
+            outputs = []
+            for track in self.tracker.tracks:
+                box = track.to_tlwh()
+                x1, y1, x2, y2 = self._tlwh_to_xyxy(box)
+                track_id = track.track_id
+                class_id = track.class_id
+                conf = track.conf
+                outputs.append(np.array([x1, y1, x2, y2, track_id, conf, class_id], dtype=np.float64))
+                break
+                
+            try:
+              last_predict = np.asarray(outputs)
+              dets[:,0:4] = last_predict[:,0:4]
+              dets[:, 4] = last_predict[:,5]
+              dets[:, 5] = last_predict[:,6]
+          except:
+              dets = np.empty((0, 6))
+
+                
+        #============================================
         xyxys = dets[:, 0:4]
         confs = dets[:, 4]
         clss = dets[:, 5]
@@ -94,7 +116,25 @@ class StrongSORT(object):
                 np.array([x1, y1, x2, y2, track_id, conf, class_id], dtype=np.float64)
             )
         outputs = np.asarray(outputs)
-        return outputs
+        #===========================================================================
+        if len(outputs) > 0:
+            return outputs
+        else:
+            outputs = []
+            for track in self.tracker.tracks:
+                box = track.to_tlwh()
+                x1, y1, x2, y2 = self._tlwh_to_xyxy(box)
+                track_id = track.track_id
+                class_id = track.class_id
+                conf = track.conf
+                outputs.append(np.array([x1, y1, x2, y2, track_id, conf, class_id], dtype=np.float64))
+                break
+
+            try:
+                return np.asarray(outputs)
+            except:
+                return np.empty((0,7))
+        #===========================================================================
 
     """
     TODO:
