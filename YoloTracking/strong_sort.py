@@ -17,7 +17,7 @@ class StrongSORT(object):
         fp16,
         max_dist=0.2,
         max_iou_dist=0.7,
-        max_age=70,
+        max_age=50,
         max_unmatched_preds=7,
         n_init=3,
         nn_budget=100,
@@ -69,13 +69,13 @@ class StrongSORT(object):
                 conf = track.conf
                 outputs.append(np.array([x1, y1, x2, y2, track_id, conf, class_id], dtype=np.float64))
                 break
-                
-            try:
-              last_predict = np.asarray(outputs)
+            
+            last_predict = np.asarray(outputs) 
+            if len(last_predict) > 0
               dets[:,0:4] = last_predict[:,0:4]
               dets[:, 4] = last_predict[:,5]
               dets[:, 5] = last_predict[:,6]
-            except:
+            else:
               dets = np.empty((0, 6))
 
                 
@@ -129,10 +129,11 @@ class StrongSORT(object):
                 conf = track.conf
                 outputs.append(np.array([x1, y1, x2, y2, track_id, conf, class_id], dtype=np.float64))
                 break
-
-            try:
-                return np.asarray(outputs)
-            except:
+                
+            outputs = np.asarray(outputs)
+            if len(outputs) > 0:
+                return outputs
+            else:
                 return np.empty((0,7))
         #===========================================================================
 
