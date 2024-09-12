@@ -71,7 +71,7 @@ class StrongSORT(object):
                 break
             
             last_predict = np.asarray(outputs) 
-            if len(last_predict) > 0
+            if len(last_predict) > 0:
               dets[:,0:4] = last_predict[:,0:4]
               dets[:, 4] = last_predict[:,5]
               dets[:, 5] = last_predict[:,6]
