@@ -504,7 +504,7 @@ class BoTSORT(object):
             tlwh = np.expand_dims(tlwh, axis=0)
             xyxy = xywh2xyxy(tlwh)
             xyxy = np.squeeze(xyxy, axis=0)
-            outputs.append(np.array([xyxy, t.track_id, t.score, t.cls], dtype=np.float64))
+            outputs.append(np.concatenate([xyxy, t.track_id, t.score, t.cls], dtype=np.float64))
           
         outputs = np.asarray(outputs)
         #=============================================================================================
