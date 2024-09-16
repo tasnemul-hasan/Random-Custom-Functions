@@ -305,7 +305,10 @@ class BoTSORT(object):
             tlwh = np.expand_dims(tlwh, axis=0)
             xyxy = xywh2xyxy(tlwh)
             xyxy = np.squeeze(xyxy, axis=0)
-            outputs.append(np.concatenate([xyxy, track.track_id, track.score, track.cls], dtype=np.float64))
+            try:
+              outputs.append(np.concatenate([xyxy, track.track_id, track.score, track.cls], dtype=np.float64))
+            except:
+              continue
             break
           
           last_predict = np.asarray(outputs) 
@@ -504,7 +507,10 @@ class BoTSORT(object):
             tlwh = np.expand_dims(tlwh, axis=0)
             xyxy = xywh2xyxy(tlwh)
             xyxy = np.squeeze(xyxy, axis=0)
-            outputs.append(np.concatenate([xyxy, t.track_id, t.score, t.cls], dtype=np.float64))
+            try:
+              outputs.append(np.concatenate([xyxy, t.track_id, t.score, t.cls], dtype=np.float64))
+            except:
+              continue
           
         outputs = np.asarray(outputs)
         #=============================================================================================
