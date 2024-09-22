@@ -186,14 +186,13 @@ class BYTETracker(object):
         #=============================================
         if dets.shape[0] == 0:
             outputs = []
-            for track in self.tracked_stracks:
-                box = track.to_tlwh()
-                x1, y1, x2, y2 = self._tlwh_to_xyxy(box)
-                track_id = track.track_id
-                class_id = track.class_id
-                conf = track.conf
+            for t in output_stracks:
+                tlwh = t.tlwh
+                tlwh = np.expand_dims(tlwh, axis=0)
+                xyxy = xywh2xyxy(tlwh)
+                xyxy = np.squeeze(xyxy, axis=0)
                 try:
-                    outputs.append(np.concatenate([x1, y1, x2, y2, track_id, conf, class_id], dtype=np.float64))
+                    outputs.append(np.concatenate([xyxy, t.track_id, t.score, t.cls], dtype=np.float64))
                 except:
                     continue
                 break
@@ -362,13 +361,13 @@ class BYTETracker(object):
             return outputs
         else:
             outputs = []
-            for track in self.tracked_stracks:
-                tlwh = track.tlwh
+            for t in output_stracks:
+                tlwh = t.tlwh
                 tlwh = np.expand_dims(tlwh, axis=0)
                 xyxy = xywh2xyxy(tlwh)
                 xyxy = np.squeeze(xyxy, axis=0)
                 try:
-                    outputs.append(np.concatenate([xyxy, track.track_id, track.score, track.cls], dtype=np.float64))
+                    outputs.append(np.concatenate([xyxy, t.track_id, t.score, t.cls], dtype=np.float64))
                 except:
                     continue
                 break
