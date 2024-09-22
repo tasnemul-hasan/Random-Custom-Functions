@@ -359,24 +359,27 @@ class BYTETracker(object):
         outputs = np.asarray(outputs)
         #=============================================================================================
         if len(outputs) > 0:
-          return outputs
+            print(outputs)
+            return outputs
         else:
-          outputs = []
-          for track in self.tracked_stracks:
-            tlwh = track.tlwh
-            tlwh = np.expand_dims(tlwh, axis=0)
-            xyxy = xywh2xyxy(tlwh)
-            xyxy = np.squeeze(xyxy, axis=0)
-            try:
-                outputs.append(np.concatenate([xyxy, track.track_id, track.score, track.cls], dtype=np.float64))
-            except:
-                continue
-            break
+            outputs = []
+            for track in self.tracked_stracks:
+                tlwh = track.tlwh
+                tlwh = np.expand_dims(tlwh, axis=0)
+                xyxy = xywh2xyxy(tlwh)
+                xyxy = np.squeeze(xyxy, axis=0)
+                try:
+                    outputs.append(np.concatenate([xyxy, track.track_id, track.score, track.cls], dtype=np.float64))
+                except:
+                    continue
+                break
 
             outputs = np.asarray(outputs)
             if len(outputs) > 0:
+                print(outputs)
                 return outputs
             else:
+                print(outputs)
                 return np.empty((0,7))
         #=============================================================================================
 
