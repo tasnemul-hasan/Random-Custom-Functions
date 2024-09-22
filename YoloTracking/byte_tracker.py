@@ -359,7 +359,6 @@ class BYTETracker(object):
         outputs = np.asarray(outputs)
         #=============================================================================================
         if len(outputs) > 0:
-            print(outputs)
             return outputs
         else:
             outputs = []
@@ -376,10 +375,8 @@ class BYTETracker(object):
 
             outputs = np.asarray(outputs)
             if len(outputs) > 0:
-                print(outputs)
                 return outputs
             else:
-                print(outputs)
                 return np.empty((0,7))
         #=============================================================================================
 
