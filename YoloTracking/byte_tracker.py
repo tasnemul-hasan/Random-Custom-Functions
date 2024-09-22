@@ -192,9 +192,12 @@ class BYTETracker(object):
                 track_id = track.track_id
                 class_id = track.class_id
                 conf = track.conf
-                outputs.append(np.array([x1, y1, x2, y2, track_id, conf, class_id], dtype=np.float64))
+                try:
+                    outputs.append(np.concatenate([x1, y1, x2, y2, track_id, conf, class_id], dtype=np.float64))
+                except:
+                    continue
                 break
-            
+                
             last_predict = np.asarray(outputs) 
             if len(last_predict) > 0:
               dets[:,0:4] = last_predict[:,0:4]
@@ -361,16 +364,18 @@ class BYTETracker(object):
             tlwh = np.expand_dims(tlwh, axis=0)
             xyxy = xywh2xyxy(tlwh)
             xyxy = np.squeeze(xyxy, axis=0)
-            outputs.append(np.array([xyxy, track.track_id, track.score, track.cls], dtype=np.float64))
+            try:
+                outputs.append(np.concatenate([xyxy, track.track_id, track.score, track.cls], dtype=np.float64))
+            except:
+                continue
             break
 
-          outputs = np.asarray(outputs)
-          if len(outputs) > 0:
-              return outputs
-          else:
-              return np.empty((0,7))
+            outputs = np.asarray(outputs)
+            if len(outputs) > 0:
+                return outputs
+            else:
+                return np.empty((0,7))
         #=============================================================================================
-
 
 def joint_stracks(tlista, tlistb):
     exists = {}
