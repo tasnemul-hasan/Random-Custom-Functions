@@ -186,7 +186,7 @@ class BYTETracker(object):
         #=============================================
         if dets.shape[0] == 0:
             outputs = []
-            for track in self.tracker.tracks:
+            for track in self.tracked_stracks:
                 box = track.to_tlwh()
                 x1, y1, x2, y2 = self._tlwh_to_xyxy(box)
                 track_id = track.track_id
