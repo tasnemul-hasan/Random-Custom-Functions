@@ -186,7 +186,7 @@ class BYTETracker(object):
         #=============================================
         if dets.shape[0] == 0:
             outputs = []
-            for t in output_stracks:
+            for t in self.tracked_stracks:
                 tlwh = t.tlwh
                 tlwh = np.expand_dims(tlwh, axis=0)
                 xyxy = xywh2xyxy(tlwh)
@@ -361,7 +361,7 @@ class BYTETracker(object):
             return outputs
         else:
             outputs = []
-            for t in output_stracks:
+            for t in self.tracked_stracks:
                 tlwh = t.tlwh
                 tlwh = np.expand_dims(tlwh, axis=0)
                 xyxy = xywh2xyxy(tlwh)
