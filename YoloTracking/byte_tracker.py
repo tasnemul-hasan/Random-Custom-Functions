@@ -351,7 +351,10 @@ class BYTETracker(object):
             tlwh = np.expand_dims(tlwh, axis=0)
             xyxy = xywh2xyxy(tlwh)
             xyxy = np.squeeze(xyxy, axis=0)
-            outputs.append(np.array([xyxy, t.track_id, t.score, t.cls], dtype=np.float64))
+            try:
+                outputs.append(np.concatenate([xyxy, t.track_id, t.score, t.cls], dtype=np.float64))
+            except:
+                continue
           
         outputs = np.asarray(outputs)
         #=============================================================================================
