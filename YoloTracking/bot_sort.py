@@ -319,6 +319,7 @@ class BoTSORT(object):
           else:
             dets = np.empty((0, 6))
         #==================================================================================================
+        print('Dets inside : ',dets)
         xyxys = dets[:, 0:4]
         xywh = xyxy2xywh(xyxys)
         confs = dets[:, 4]
@@ -511,7 +512,8 @@ class BoTSORT(object):
               outputs.append(np.concatenate([xyxy, t.track_id, t.score, t.cls], dtype=np.float64))
             except:
               continue
-          
+
+        print('Output inside', outputs)
         outputs = np.asarray(outputs)
         #=============================================================================================
         if len(outputs) > 0:
