@@ -297,9 +297,7 @@ class BoTSORT(object):
         removed_stracks = []
 
         #=============================================================
-        if len(outputs) > 0:
-          return outputs
-        else:
+        if dets.shape[0] == 0:
           outputs = []
           for t in self.tracked_stracks:
             output = []
