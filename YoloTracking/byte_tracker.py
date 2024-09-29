@@ -183,29 +183,6 @@ class BYTETracker(object):
         lost_stracks = []
         removed_stracks = []
 
-        #=============================================
-        if dets.shape[0] == 0:
-            outputs = []
-            for t in self.tracked_stracks:
-                tlwh = t.tlwh
-                tlwh = np.expand_dims(tlwh, axis=0)
-                xyxy = xywh2xyxy(tlwh)
-                xyxy = np.squeeze(xyxy, axis=0)
-                try:
-                    outputs.append(np.concatenate([xyxy, t.track_id, t.score, t.cls], dtype=np.float64))
-                except:
-                    continue
-                break
-                
-            last_predict = np.asarray(outputs) 
-            if len(last_predict) > 0:
-              dets[:,0:4] = last_predict[:,0:4]
-              dets[:, 4] = last_predict[:,5]
-              dets[:, 5] = last_predict[:,6]
-            else:
-              dets = np.empty((0, 6))
-        #============================================
-
         xyxys = dets[:, 0:4]
         xywh = xyxy2xywh(xyxys)
         confs = dets[:, 4]
@@ -346,38 +323,23 @@ class BYTETracker(object):
         output_stracks = [track for track in self.tracked_stracks if track.is_activated]
         outputs = []
         for t in output_stracks:
+            output = []
             tlwh = t.tlwh
+            tid = t.track_id
             tlwh = np.expand_dims(tlwh, axis=0)
             xyxy = xywh2xyxy(tlwh)
             xyxy = np.squeeze(xyxy, axis=0)
-            try:
-                outputs.append(np.concatenate([xyxy, t.track_id, t.score, t.cls], dtype=np.float64))
-            except:
-                continue
-          
+            output.extend(xyxy)
+            output.append(tid)
+            output.append(t.score)
+            output.append(t.cls)
+            outputs.append(output)
         outputs = np.asarray(outputs)
-        #=============================================================================================
-        if len(outputs) > 0:
-            return outputs
-        else:
-            outputs = []
-            for t in self.tracked_stracks:
-                tlwh = t.tlwh
-                tlwh = np.expand_dims(tlwh, axis=0)
-                xyxy = xywh2xyxy(tlwh)
-                xyxy = np.squeeze(xyxy, axis=0)
-                try:
-                    outputs.append(np.concatenate([xyxy, t.track_id, t.score, t.cls], dtype=np.float64))
-                except:
-                    continue
-                break
+        return outputs
 
-            outputs = np.asarray(outputs)
-            if len(outputs) > 0:
-                return outputs
-            else:
-                return np.empty((0,7))
-        #=============================================================================================
+
+# track_id, class_id, conf
+
 
 def joint_stracks(tlista, tlistb):
     exists = {}
