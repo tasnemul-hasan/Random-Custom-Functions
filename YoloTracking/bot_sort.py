@@ -296,6 +296,33 @@ class BoTSORT(object):
         lost_stracks = []
         removed_stracks = []
 
+        #=============================================================
+        if len(outputs) > 0:
+              return outputs
+          else:
+              outputs = []
+              for t in self.tracked_stracks:
+                output = []
+                tlwh = t.tlwh
+                tid = t.track_id
+                tlwh = np.expand_dims(tlwh, axis=0)
+                xyxy = xywh2xyxy(tlwh)
+                xyxy = np.squeeze(xyxy, axis=0)
+                output.extend(xyxy)
+                output.append(tid)
+                output.append(t.score)
+                output.append(t.cls)
+                outputs.append(output)
+                break
+                  
+              outputs = np.asarray(outputs)
+              if len(outputs) > 0:
+                  dets[:,0:4] = outputs[:,0:4]
+                  dets[:, 4] = outputs[:,5]
+                  dets[:, 5] = outputs[:,6]
+              else:
+                  dets = np.empty((0,6))
+
         xyxys = dets[:, 0:4]
         xywh = xyxy2xywh(xyxys)
         confs = dets[:, 4]
@@ -493,7 +520,31 @@ class BoTSORT(object):
             outputs.append(output)
 
         outputs = np.asarray(outputs)
-        return outputs
+      #=============================================================
+        if len(outputs) > 0:
+              return outputs
+          else:
+              outputs = []
+              for t in self.tracked_stracks:
+                output = []
+                tlwh = t.tlwh
+                tid = t.track_id
+                tlwh = np.expand_dims(tlwh, axis=0)
+                xyxy = xywh2xyxy(tlwh)
+                xyxy = np.squeeze(xyxy, axis=0)
+                output.extend(xyxy)
+                output.append(tid)
+                output.append(t.score)
+                output.append(t.cls)
+                outputs.append(output)
+                break
+                  
+              outputs = np.asarray(outputs)
+              if len(outputs) > 0:
+                  return outputs
+              else:
+                  return np.empty((0,7))
+          
 
     def _xywh_to_xyxy(self, bbox_xywh):
         x, y, w, h = bbox_xywh
