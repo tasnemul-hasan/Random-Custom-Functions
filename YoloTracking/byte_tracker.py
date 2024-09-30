@@ -380,7 +380,7 @@ class BYTETracker(object):
                 break
                 
             outputs = np.asarray(outputs)
-            if(len(outputs)>0:
+            if len(outputs)>0:
                 return outputs
             else:
                 return np.empty((0,7))
