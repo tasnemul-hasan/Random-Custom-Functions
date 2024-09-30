@@ -183,6 +183,7 @@ class BYTETracker(object):
         lost_stracks = []
         removed_stracks = []
 
+        print('Detections inside', dets)
         xyxys = dets[:, 0:4]
         xywh = xyxy2xywh(xyxys)
         confs = dets[:, 4]
@@ -335,6 +336,8 @@ class BYTETracker(object):
             output.append(t.cls)
             outputs.append(output)
         outputs = np.asarray(outputs)
+
+        print("Remove Stracks", removed_stracks)
         return outputs
 
 
